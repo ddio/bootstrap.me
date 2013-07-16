@@ -1,7 +1,12 @@
 #!/bin/bash
 
-# apt-get install npm
+apt-get install git
+apt-get install tree curl node npm 
 
 npm install -g npm
-npm install -g docpad
+
+
+mkdir ~/src
+
+mkdir ~/tmp
 
