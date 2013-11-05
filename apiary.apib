@@ -10,6 +10,7 @@ User must issues the following two requests to initialize API session.
 SMG API use cookie as session token. The cookie must be included in every subsequent request.
 
 ## POST /login/auth.cgi
+
 User is required to store the cookie return from this request.
 
 + Request (application/x-www-form-urlencoded)
@@ -19,7 +20,9 @@ User is required to store the cookie return from this request.
 + Response 302
 
 ## GET /smg/api/session/init
+
 This API provides dictionary for all predefined enumeration and a valid session cookie.
+
 User is required to sent cookie returned from auth.cgi and store the returned session cookie for futher use.
 
 + Response 200 (application/json)
@@ -35,8 +38,58 @@ User is required to sent cookie returned from auth.cgi and store the returned se
             "job_state": [ "list of job state" ],
             "command_code": [ "list of acceptable command" ],
             "mtn_code": [ "job type id": "job type name" ],
-            "read_at": <system unix time>
+            "read_at": system unix timestamp
         }
+
+
+#Group Assets
+Device related resources 
+
+## List of assets [/smg/api/assets]
+
++ Parameters
+    + time (optional, number, `0`) Query only devices which have been updated after this time. This parameters can be used to reduce network traffic.
+
+
++ Response 200 (application/json)
+
+        {
+			result: true,
+			serverTime: system unix timestamp,
+			update: [
+				{
+					"smid": device smid,
+					"emp_addr": device emp address,
+					"status": device status code,
+					"state": device state code,
+					"location": location, can be gps coordination or pure string,
+					"initialized_time": unix timestamp,
+					"total_msg_recved": number,
+					"last_msg_recved_time": unix timestamp,
+					"total_msg_sent": number,
+					"last_msg_sent_time": unix timestamp,
+					"total_proto_errors": number,
+					"total_auth_errors": number,
+					"total_integrity_errors": number,
+					"total_other_errors": number,
+					"last_reset_time": unix timestamp,
+					"updated_at": unix timestamp,
+					"records": [ list of id of status record, if any ],
+					"job_status": [ list of id of status probe job, if any ],
+					"job_cmd": [ list of id of command execution job, if any ],
+					"job_log": [ list of id of log retrieval job, if any ]
+				},
+				...
+			],
+			cache: [
+				list of devices which does not updated after given time.
+			],
+			remove: [
+				list of devices which have been deleted after given time.
+			]
+		}
+
+
 
 
 # Group Notes
