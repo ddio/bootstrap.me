@@ -1,8 +1,37 @@
 FORMAT: 1A
-HOST: http://www.google.com
+HOST: http://smg.lileesystems.com
 
 # SMG API
-SMG API is manipulate devices and jobs in SMG.
+SMG API provides http interface to manipulate devices and jobs in SMG.
+
+# Group Initialization
+
+User must issues the following two requests to initialize API session.
+SMG API use cookie as session token. The cookie must be included in every subsequent request.
+
+## POST /login/auth.cgi
++ Request (application/x-www-form-urlencoded)
+		username=admin&passwd=admin
+
++ Response 302
+
+## GET /smg/api/session/init
++ Response 200 (application/json)
+
+		{
+			"component": [ "list of component" ],
+			"event": { "event id": "event value" },
+			"log_level": [ "list of log level" ],
+			"log_type": [ "list of log type" ],
+			"state": { "device state id": "device state name" },
+			"status": [ "list of device status" ],
+			"variables": { "status variable id": "status variable name" },
+			"job_state": [ "list of job state" ],
+			"command_code": [ "list of acceptable command" ],
+			"mtn_code": [ "job type id": "job type name" ],
+			"read_at": "system unix time"
+		}
+
 
 # Group Notes
 Notes related resources of the **Notes API**
